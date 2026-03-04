@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You.</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:italic&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --soft-pink: #ffc7d2;
+            --deep-pink: #fae1e6; 
+            --white: #ffffff;
+            --accent-pink: #f4c2c2;
+            --text-main: #444444;
+            --text-muted: #888888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: linear-gradient(180deg, var(--soft-pink) 0%, var(--white) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        #bg-elements {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+        }
+
+        .float-item {
+            position: absolute; opacity: 0.15;
+            animation: floatUp 8s infinite linear;
+        }
+
+        .section-cover {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+            position: relative; z-index: 1;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 45px 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            width: 260px; transform: rotate(-2deg);
+            margin-bottom: 25px; 
+            animation: fadeIn 2s ease;
+        }
+        .polaroid img { width: 100%; height: auto; display: block; border-radius: 2px; }
+
+        .name-header {
+            font-size: 0.7rem; letter-spacing: 5px;
+            text-transform: uppercase; color: var(--text-muted);
+            margin-bottom: 15px; 
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .hbd-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem; font-style: italic;
+            background: linear-gradient(to right, #444, var(--accent-pink), #444);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite, fadeInUp 1.5s ease;
+        }
+
+        .section-message {
+            min-height: 80vh;
+            display: flex; justify-content: center; align-items: center;
+            padding: 40px 20px; position: relative; z-index: 1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+            padding: 50px 25px;
+            width: 100%; max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(255, 199, 210, 0.3);
+        }
+
+        /* Perbaikan Reveal */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); 
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .message-text {
+            font-size: 1rem; line-height: 1.8; font-weight: 300;
+            color: #555; margin-bottom: 40px;
+        }
+
+        /* Tombol yang lebih matching & terlihat */
+        .btn {
+            background: linear-gradient(135deg, #ffffff 0%, var(--deep-pink) 100%);
+            border: none;
+            padding: 16px 40px; font-size: 0.75rem; letter-spacing: 2px;
+            text-transform: uppercase; border-radius: 50px;
+            color: #666; font-weight: 600;
+            box-shadow: 0 10px 20px rgba(244, 194, 194, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(244, 194, 194, 0.5); }
+        .btn:active { transform: scale(0.95); }
+
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="bg-elements"></div>
+
+    <div class="section-cover">
+        <div class="polaroid">
+            <img src="https://i.ibb.co.com/mVKyPw40/image-2026-03-05-003217862.png" alt="Photo">
+        </div>
+        <div class="name-header">Bebeluc</div>
+        <h1 class="hbd-title">Happy Birthday.</h1>
+    </div>
+
+    <div class="section-message">
+        <div class="glass-card reveal">
+            <p class="message-text">
+                Happy Birthday Bebeluc Memek, Wish u all the best! May this year move a little slower, bringing u the peace u deserve. semoga segala hal baik yang lu harapkan datang dengan cara yang paling manis. u’re doing great, and im always rooted for u ea. ( Semoga lama ama joko ia )
+            </p>
+            <button class="btn" onclick="wish()">Make a wish</button>
+        </div>
+    </div>
+
+    <script>
+        // Animasi floating icon
+        function createFloat() {
+            const container = document.getElementById('bg-elements');
+            const item = document.createElement('div');
+            item.className = 'float-item';
+            item.innerHTML = ['🌸', '✨', '🤍'][Math.floor(Math.random() * 3)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.fontSize = Math.random() * 15 + 10 + 'px';
+            item.style.animationDuration = Math.random() * 5 + 7 + 's';
+            container.appendChild(item);
+            setTimeout(() => item.remove(), 8000);
+        }
+        setInterval(createFloat, 1200);
+
+        // Fungsi pengecekan reveal elemen
+        function checkReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 100; // Sensitivitas kemunculan
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+
+        // Jalankan saat scroll dan saat load pertama kali
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+
+        function wish() {
+            confetti({
+                particleCount: 150, 
+                spread: 70, 
+                origin: { y: 0.8 },
+                colors: ['#f4c2c2', '#ffffff', '#ffebef']
+            });
+        }
+    </script>
+</body>
+</html>
